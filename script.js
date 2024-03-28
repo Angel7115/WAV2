@@ -1,4 +1,4 @@
-const controlTexto = document.getElementById('controlTexto'); // variable para controlar el texto
+const controlTexto = document.getElementById('controlTexto'); // Variable para controlar el texto
 
 // Espera a que el DOM esté completamente cargado antes de ejecutar el código
 document.addEventListener('DOMContentLoaded', function() {
@@ -8,18 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const recognition = new webkitSpeechRecognition();
     recognition.lang = 'es-ES'; // Establece el idioma del reconocimiento de voz
 
-
     // Callback que se ejecuta cuando se detecta una transcripción de voz
     recognition.onresult = function(event) {
       // Obtiene la transcripción de voz
-      const transcript = event.results[0][0].transcript;
-      document.getElementById('result-container').textContent = transcript; // Muestra la transcripción en un contenedor
+      const transcript = event.results[0][0].transcript.toLowerCase(); // Convierte el texto a minúsculas para facilitar la comparación
 
-// ************************** SECCION RECONOCIMIENTO TAMAÑO *******************************
-// ****************************************************************************************
 
-      // Define las palabras clave para los diferentes tamaños de texto
-      const keywords = ['tamaño 1', 'tamaño 2', 'tamaño 3', 'tamaño 4', 'tamaño 5', 'tamaño 6'];
+            //***********************  Seccion Instrucciones Tamaño ***********************/
+
+      // Palabras clave para cambiar el tamaño del texto
+      const sizeKeywords = ['tamaño 1', 'tamaño 2', 'tamaño 3', 'tamaño 4', 'tamaño 5', 'tamaño 6'];
 
       // Itera sobre cada tamaño de texto posible
       for (let i = 1; i <= 6; i++) {
@@ -32,15 +30,35 @@ document.addEventListener('DOMContentLoaded', function() {
           // Agrega la clase correspondiente al tamaño detectado
           controlTexto.classList.add(`fs-${i}`);
           console.log(`Se detectó la palabra clave: tamaño ${i}`); // Muestra un mensaje en la consola
-          break; // Sal del bucle una vez que se ha encontrado una coincidencia
+          return; // Sal del bucle una vez que se ha encontrado una coincidencia
         }
       }
+
+      //***********************  Seccion Instrucciones Navegador ***********************/
+      // Palabras clave para controlar el navegador
+      const browserKeywords = {
+        'abrir pestaña': () => window.open('https://www.google.com/?hl=es', '_blank'),
+        'ir a youtube': () => window.open('https://www.youtube.com', '_blank'),
+        'ir a facebook': () => window.open('https://www.facebook.com', '_blank'),
+        'ir a github': () => window.open('https://www.github.com', '_blank'),
+        'ventana grande': () => window.resizeTo(screen.width, screen.height),
+        'ventana media': () => window.resizeTo(screen.width / 2, screen.height / 2), // Redimensionar al 50% del tamaño de la pantalla
+        'cerrar pestaña': () => window.close(),
+        'cerrar navegador': () => window.close()
+      };
+
+      // Verifica si la transcripción coincide con alguna palabra clave de control de navegador y ejecuta la acción correspondiente.
+      for (const keyword in browserKeywords) {
+        if (transcript.includes(keyword)) {
+          browserKeywords[keyword](); // Ejecuta la función asociada a la palabra clave
+          console.log(`Se detectó la palabra clave: ${keyword}`);
+          return; // Sal del bucle una vez que se ha encontrado una coincidencia
+        }
+      }
+
+      // Mensaje para comandos no reconocidos
+      console.log('Comando no reconocido');
     };
-
-// ************************** SECCION instrucciones navegador  ********************************
-// ****************************************************************************************
-
-
 
     // Callback que se ejecuta cuando hay un error en el reconocimiento de voz
     recognition.onerror = function(event) {
