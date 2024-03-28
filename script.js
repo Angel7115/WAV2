@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     };
 
-// ************************** SECCION instrucciones navegador  *******************************
+// ************************** SECCION instrucciones navegador  ********************************
 // ****************************************************************************************
 
 
