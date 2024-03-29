@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
       // Obtiene la transcripción de voz
       const transcript = event.results[0][0].transcript.toLowerCase(); // Convierte el texto a minúsculas para facilitar la comparación
 
+
+      //********************************************************* SECCION TAMAÑOS LETRA */
+
       // Palabras clave para cambiar el tamaño del texto
       const sizeKeywords = ['tamaño 1', 'tamaño 2', 'tamaño 3', 'tamaño 4', 'tamaño 5', 'tamaño 6'];
 
@@ -31,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
           return; // Sal del bucle una vez que se ha encontrado una coincidencia
         }
       }
+
+//********************************************************* SECCION NAVEGADOR */
+
 
       // Palabras clave para controlar el navegador
       const browserKeywords = {
@@ -67,6 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     recognition.start();
   });
 });
+//********************************************************* SECCION MOCKAPI */
 
 // Función para enviar la orden aceptada a MockAPI.io
 function enviarOrdenA(url, comando) {
